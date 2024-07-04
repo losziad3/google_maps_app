@@ -17,6 +17,7 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
       zoom: 12,
       target: LatLng(30.044920714694886, 31.236492632728453),
     );
+
     super.initState();
   }
   late GoogleMapController googleMapController;
@@ -27,6 +28,12 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
     super.dispose();
   }
 
+  // 1. Load String
+  // 2. Make Google Maps Update the Style
+   void initMapStyle()async{
+     var nightMapStyle = await DefaultAssetBundle.of(context).loadString('assets/map_styles/night_map_style.json');
+     googleMapController.setMapStyle(nightMapStyle);
+   }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -34,6 +41,8 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
         GoogleMap(
           onMapCreated: (controller) {
             googleMapController = controller;
+            // I call the function here because I want to initialize google map controller to use it in Google Style
+            initMapStyle();
           },
           initialCameraPosition: initialCameraPosition,
         ),
