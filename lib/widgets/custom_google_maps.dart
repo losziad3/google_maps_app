@@ -23,6 +23,9 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
   }
   void initMarkers(){
    var myMarkers = places.map((placeModel)=>Marker(
+     infoWindow: InfoWindow(
+       title: placeModel.name,
+     ),
       position: placeModel.latLng,
       markerId: MarkerId(placeModel.id.toString(),),),).toSet();
    markers.addAll(myMarkers);
