@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_app_flutter/models/place_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CustomGoogleMaps extends StatefulWidget {
@@ -17,8 +18,14 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
       zoom: 12,
       target: LatLng(30.044920714694886, 31.236492632728453),
     );
-
+    initMarkers();
     super.initState();
+  }
+  void initMarkers(){
+   var myMarkers = places.map((placeModel)=>Marker(
+      position: placeModel.latLng,
+      markerId: MarkerId(placeModel.id.toString(),),),).toSet();
+   markers.addAll(myMarkers);
   }
   late GoogleMapController googleMapController;
 
@@ -34,11 +41,14 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
      var nightMapStyle = await DefaultAssetBundle.of(context).loadString('assets/map_styles/night_map_style.json');
      googleMapController.setMapStyle(nightMapStyle);
    }
+
+   Set<Marker> markers={};
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GoogleMap(
+          markers: markers,
           onMapCreated: (controller) {
             googleMapController = controller;
             // I call the function here because I want to initialize google map controller to use it in Google Style
