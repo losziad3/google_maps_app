@@ -51,6 +51,7 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
     return Stack(
       children: [
         GoogleMap(
+          zoomControlsEnabled: false,
           markers: markers,
           onMapCreated: (controller) {
             googleMapController = controller;
